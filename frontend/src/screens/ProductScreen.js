@@ -8,20 +8,21 @@ import Loader from '../component/Loader';
 import Message from '../component/Message';
 
 const ProductScreen = ({history, match }) => {
-  const [qty, setQty] = useState(0);
+  const [qty, setQty] = useState(1);
+  const [rating, setRating] = useState(0)
   const dispatch = useDispatch();
 
   const productDetails = useSelector((state) => state.productDetails);
-  console.log(productDetails);
+  //console.log(productDetails);
   const { loading, error, product } = productDetails;
   
   useEffect(() => {
     dispatch(listProductDetails(match.params.id));
   }, [dispatch, match]);
 
-const addToCartHandler = () =>{
-history.push(`/cart/${match.params.id}?qty=${qty}`)
-}
+  const addToCartHandler = () => {
+    history.push(`/cart/${match.params.id}?qty=${qty}`)
+  }
 
   return (
     <>
@@ -76,26 +77,27 @@ history.push(`/cart/${match.params.id}?qty=${qty}`)
                 
 
                 {product.countInStock > 0 && (
-                   <ListGroup.Item>
-                  <Row>
-                    <Col>
-                    Qty
-                    </Col>
-                     <Col>
-                    <Form.Control  as='select' value={qty} onChange={(e) =>
-                    setQty(e.target.value)}>
-                    {
-                     [...Array(product.countInStock).keys()].map((x)=>(
-                       <option key={x+1} value={x+1}>
-                         {x+1 }
-                       </option>
-                     ))
-                    }
-                    </Form.Control>
-                    </Col> 
-                  </Row>
-                 </ListGroup.Item>
-                )}
+                    <ListGroup.Item>
+                      <Row>
+                        <Col>Qty</Col>
+                        <Col>
+                          <Form.Control
+                            as='select'
+                            value={qty}
+                            onChange={(e) => setQty(e.target.value)}
+                          >
+                            {[...Array(product.countInStock).keys()].map(
+                              (x) => (
+                                <option key={x + 1} value={x + 1}>
+                                  {x + 1}
+                                </option>
+                              )
+                            )}
+                          </Form.Control>
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                  )}
                  
                  <ListGroup.Item>
                   <Button
